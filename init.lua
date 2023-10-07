@@ -1,3 +1,4 @@
+require('keymaps')
 --[[
 
 =====================================================================
@@ -42,7 +43,7 @@ P.S. You can delete this when you're done too. It's your config now :)
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-
+vim.wo.relativenumber = true
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -71,6 +72,7 @@ require('lazy').setup({
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
   'github/copilot.vim',
+  'mbbill/undotree',
   {
     'goolord/alpha-nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -78,7 +80,10 @@ require('lazy').setup({
         require'alpha'.setup(require'alpha.themes.startify'.config)
     end
   },
-
+  {
+    "nvim-telescope/telescope-file-browser.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+  },
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
@@ -271,7 +276,7 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
-
+vim.opt.spell = false
 -- [[ Basic Keymaps ]]
 
 -- Keymaps for better default experience
@@ -309,6 +314,8 @@ require('telescope').setup {
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 
+-- File browser plugin for telescope
+require("telescope").load_extension "file_browser"
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
